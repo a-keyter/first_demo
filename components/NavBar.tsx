@@ -2,24 +2,10 @@ import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
 import SignOut from "./SignOut";
-import { createClient } from "@/utils/supabase/server";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
-interface User {
-  id?: string;
-  email?: string;
-}
 
-const fetchUser = async (): Promise<User | null> => {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return user ? { id: user.id, email: user.email } : null;
-};
-
-export default async function NavBar() {
-  const user = await fetchUser();
-
+export default function NavBar() {
   const NavLinks = [
     {
       name: "Home",
@@ -42,18 +28,12 @@ export default async function NavBar() {
           <Button>{link.name}</Button>
         </Link>
       ))}
-      {user ? (
-        <div className="flex gap-x-4">
-          <Link href="/dashboard">
-            <Button>Dashboard</Button>
-          </Link>
-          <SignOut />
-        </div>
-      ) : (
-        <Link href="/login" style={{ textDecoration: "none" }}>
-          <Button>Login</Button>
-        </Link>
-      )}
-    </div>
+      <SignedOut>
+          <SignInButton mode="modal" forceRedirectUrl={"/dashboard"}/>
+        </SignedOut>
+        <SignedIn>
+          <UserButton afterSignOutUrl="/" />
+        </SignedIn>
+     </div>
   );
 }
