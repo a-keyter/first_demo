@@ -32,7 +32,7 @@ export default async function NavBar() {
   ];
 
   return (
-    <div className="w-full flex justify-end gap-x-4 py-2 pr-4">
+    <div className="w-full flex flex-1 justify-end gap-x-4 py-2 pr-4">
       {NavLinks.map((link) => (
         <Link
           key={link.name}
