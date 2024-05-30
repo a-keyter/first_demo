@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-    <html lang="en" className="h-screen">
+    <html lang="en">
       <body className={inter.className + " h-full"}>
         <NavBar/>
         {children}
